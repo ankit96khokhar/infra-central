@@ -29,16 +29,20 @@ spec:
     stage('Discovery') {
       steps {
         script {
-          def repos = listGithubRepos("ankit96khokhar")
+          def repoList = listGithubRepos("ankit96khokhar")
+          echo "===== Discovered GitHub Repositories ====="
+          repoList.each { repo ->
+            echo " - ${repo}"
+          }
+          echo "========================================="   
 
           def selectedRepo = input(
-            message: "Select repository",
+            message: "Select repo",
             parameters: [
               choice(name: 'REPO', choices: repos.join('\n'))
             ]
           )
-
-          env.REPO = selectedRepo     
+          env.REPO = selectedRepo
         }
       }
     }
