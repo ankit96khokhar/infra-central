@@ -109,7 +109,29 @@ spec:
       }
     }
 
+    stage('Terraform Fmt Check') {
+      steps {
+        sh '''
+          terraform fmt -check -recursive
+        '''
+      }
+    }
 
+    stage('Terraform Validate') {
+      steps {
+        sh '''
+          terraform validate
+        '''
+      }
+    }
+
+    stage('Terraform Plan') {
+      steps {
+        sh '''
+          terraform plan -no-color
+        '''
+      }
+    }
   }
 }
 
