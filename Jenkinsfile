@@ -29,10 +29,8 @@ spec:
     stage('Discovery') {
       steps {
         script {
-          withCredentials([string(credentialsId: 'github-api-token', variable: 'TOKEN')]) {
-            def repoList = listGithubRepos("ankit96khokhar", TOKEN)
-            env.REPO_OPTIONS = repoList.join('\n')
-          }
+          def repoList = listGithubRepos("ankit96khokhar")
+          env.REPO_OPTIONS = repoList.join('\n')
         }
       }
     }
@@ -40,3 +38,4 @@ spec:
   }
 
 }
+
