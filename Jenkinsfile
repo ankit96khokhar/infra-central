@@ -77,6 +77,39 @@ spec:
         }
       }
     }
+
+    stage('Checkout Service Repo') {
+      steps {
+        script {
+          echo "Checking out repo: ${env.REPO}"
+          echo "Branch: ${env.BRANCH}"
+
+          checkout([
+            $class: 'GitSCM',
+            branches: [[name: "*/${env.BRANCH}"]],
+            userRemoteConfigs: [[
+              url: "https://github.com/ankit96khokhar/${env.REPO}.git",
+              credentialsId: 'github-api-token'
+            ]],
+            extensions: [
+              [$class: 'CleanBeforeCheckout'],
+              [$class: 'CloneOption', shallow: true, depth: 1]
+            ]
+          ])
+        }
+      }
+    }
+
+    stage('Terraform Init') {
+      steps {
+        sh '''
+          terraform version
+          terraform init -backend=false -input=false
+        '''
+      }
+    }
+
+
   }
 }
 
