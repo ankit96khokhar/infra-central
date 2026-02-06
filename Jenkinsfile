@@ -30,7 +30,7 @@ spec:
       steps {
         script {
           withCredentials([string(credentialsId: 'github-api-token', variable: 'TOKEN')]) {
-            def repoList = getRepos("ankit96khokhar", TOKEN)
+            def repoList = listGithubRepos("ankit96khokhar", TOKEN)
             env.REPO_OPTIONS = repoList.join('\n')
           }
         }
