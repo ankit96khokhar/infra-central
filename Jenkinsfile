@@ -30,19 +30,25 @@ spec:
       steps {
         script {
           def repoList = listGithubRepos("ankit96khokhar")
+
           echo "===== Discovered GitHub Repositories ====="
           repoList.each { repo ->
             echo " - ${repo}"
           }
-          echo "========================================="   
+          echo "========================================="
 
           def selectedRepo = input(
             message: "Select repo",
             parameters: [
-              choice(name: 'REPO', choices: repos.join('\n'))
+              choice(
+                name: 'REPO',
+                choices: repoList.join('\n')
+              )
             ]
           )
+
           env.REPO = selectedRepo
+          echo "Selected repo: ${env.REPO}"
         }
       }
     }
