@@ -30,7 +30,11 @@ spec:
       steps {
         script {
           def repoList = listGithubRepos("ankit96khokhar")
-          env.REPO_OPTIONS = repoList.join('\n')
+          echo "===== Discovered GitHub Repositories ====="
+          repoList.each { repo ->
+            echo " - ${repo}"
+          }
+          echo "========================================="          
         }
       }
     }
