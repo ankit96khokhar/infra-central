@@ -29,6 +29,8 @@ spec:
     stage('Discovery') {
       steps {
         script {
+
+          /* ---------- Repo discovery ---------- */
           def repoList = listGithubRepos("ankit96khokhar")
 
           echo "===== Discovered GitHub Repositories ====="
@@ -38,7 +40,7 @@ spec:
           echo "========================================="
 
           def selectedRepo = input(
-            message: "Select repo",
+            message: "Select GitHub repository",
             parameters: [
               choice(
                 name: 'REPO',
@@ -49,11 +51,32 @@ spec:
 
           env.REPO = selectedRepo
           echo "Selected repo: ${env.REPO}"
+
+
+          /* ---------- Branch discovery ---------- */
+          def branchList = listGithubBranches("ankit96khokhar", env.REPO)
+
+          echo "===== Discovered Branches for ${env.REPO} ====="
+          branchList.each { br ->
+            echo " - ${br}"
+          }
+          echo "============================================="
+
+          def selectedBranch = input(
+            message: "Select branch for ${env.REPO}",
+            parameters: [
+              choice(
+                name: 'BRANCH',
+                choices: branchList.join('\n')
+              )
+            ]
+          )
+
+          env.BRANCH = selectedBranch
+          echo "Selected branch: ${env.BRANCH}"
         }
       }
     }
-
-  }
 
 }
 
