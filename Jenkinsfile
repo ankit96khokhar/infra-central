@@ -112,7 +112,7 @@ spec:
     stage('Terraform Fmt Check') {
       steps {
         sh '''
-          terraform fmt -check -recursive
+          terraform fmt -check
         '''
       }
     }
